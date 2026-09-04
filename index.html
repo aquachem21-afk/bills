@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Bill Planner</title>
+
+<!-- iOS home screen behaviour -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bills">
+<meta name="theme-color" content="#142433">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACgUlEQVR42u3dMStFYRjA8XNvUixKFBYpgwGLmG0+kvIBlI9kM7NhsMmCUspCmQxGt5vh3Od9n/f8fusdjl7/nvt2Tue+o5Xtgw4mGVsCxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDcYA4EAc9mAu70sLJpuX+v/mbzymffry/BfwNo4BTE2SRNJGxMmr2fbg45dOl5dXEcSgjdR82pJSIw9jIPjxMDsSBOBAHyeP4unyyvr0odSvM5KBQHIZH3rERMTn0kbSMLubB2y/3xBJlER0H9hyIA3EgDhAH4kAciANxIA7EgThoWNy7sufHj20v5cXtUdi12nkq23wWrSYyVka/Tvevw66V+13ZoZXRWB82pJSIY5hjo6XhYXIgDsSBOEgex9nV1mCXtY1bYSYHheIY5vBo5g76zCfH0Ppo6dlK3OuQnsomyiI6Duw5EAfiQBwgDsSBOBAH4kAciANx0DDnyqYU86PhzpWVSLmvFWXkXVvnyurDhpSq4jA2sg8PkwNxIA7EQfI4HP0XY3brbHJQKA7DI+/Y6Jwrq4wpnCsriwriwJ4DcSAOxAHiQByIA3EgDsSBOBAHDYt7V3Znd6/OJXh5fk33b2vnF4yrzUIihb9WUpTRdd36xlq6OHKfK5ulDH3YkFJNHLnGhuFhciAOxIE4aC6Oh/u7dMvhVpjJQQVx5Boexkb05MjShzL+insd0lPZRFlEx4E9B+JAHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOBAHTPIDX3Gl0+QaF0EAAAAASUVORK5CYII=">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACgUlEQVR42u3dMStFYRjA8XNvUixKFBYpgwGLmG0+kvIBlI9kM7NhsMmCUspCmQxGt5vh3Od9n/f8fusdjl7/nvt2Tue+o5Xtgw4mGVsCxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDcYA4EAc9mAu70sLJpuX+v/mbzymffry/BfwNo4BTE2SRNJGxMmr2fbg45dOl5dXEcSgjdR82pJSIw9jIPjxMDsSBOBAHyeP4unyyvr0odSvM5KBQHIZH3rERMTn0kbSMLubB2y/3xBJlER0H9hyIA3EgDhAH4kAciANxIA7EgThoWNy7sufHj20v5cXtUdi12nkq23wWrSYyVka/Tvevw66V+13ZoZXRWB82pJSIY5hjo6XhYXIgDsSBOEgex9nV1mCXtY1bYSYHheIY5vBo5g76zCfH0Ppo6dlK3OuQnsomyiI6Duw5EAfiQBwgDsSBOBAH4kAciANx0DDnyqYU86PhzpWVSLmvFWXkXVvnyurDhpSq4jA2sg8PkwNxIA7EQfI4HP0XY3brbHJQKA7DI+/Y6Jwrq4wpnCsriwriwJ4DcSAOxAHiQByIA3EgDsSBOBAHDYt7V3Znd6/OJXh5fk33b2vnF4yrzUIihb9WUpTRdd36xlq6OHKfK5ulDH3YkFJNHLnGhuFhciAOxIE4aC6Oh/u7dMvhVpjJQQVx5Boexkb05MjShzL+insd0lPZRFlEx4E9B+JAHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOBAHTPIDX3Gl0+QaF0EAAAAASUVORK5CYII=">
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7/babel.min.js" crossorigin></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #F5F7F4; -webkit-text-size-adjust: 100%; }
+  body { overscroll-behavior-y: none; }
+  button, input, select, textarea { font-family: inherit; }
+  button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  input, textarea, select { -webkit-appearance: none; border-radius: 0; }
+  :focus-visible { outline: 2px solid #142433; outline-offset: 2px; }
+
+  /* the 14 utility classes the app actually uses */
+  .flex { display: flex; }
+  .flex-1 { flex: 1 1 0%; }
+  .items-center { align-items: center; }
+  .items-baseline { align-items: baseline; }
+  .justify-between { justify-content: space-between; }
+  .overflow-x-auto { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .px-2 { padding-left: .5rem; padding-right: .5rem; }
+  .px-2\.5 { padding-left: .625rem; padding-right: .625rem; }
+  .py-1 { padding-top: .25rem; padding-bottom: .25rem; }
+  .py-2 { padding-top: .5rem; padding-bottom: .5rem; }
+  .py-3 { padding-top: .75rem; padding-bottom: .75rem; }
+  .rounded { border-radius: .25rem; }
+  .rounded-lg { border-radius: .5rem; }
+  .rounded-full { border-radius: 9999px; }
+
+  /* clear the iPhone home indicator */
+  nav { padding-bottom: calc(6px + env(safe-area-inset-bottom)) !important; }
+  #boot { font: 15px -apple-system, system-ui, sans-serif; color: #8593A0; padding: 24px; }
+</style>
+</head>
+<body>
+<div id="root"><div id="boot">Loading Bill Planner…</div></div>
+
+<script>
+  /* Storage shim: the app was written against Claude's async window.storage.
+     Same contract, backed by localStorage. get() throws on a missing key,
+     which is what the app's try/catch already expects. */
+  window.storage = {
+    get: async function (key) {
+      var v = localStorage.getItem(key);
+      if (v === null) throw new Error("key not found: " + key);
+      return { key: key, value: v, shared: false };
+    },
+    set: async function (key, value) {
+      localStorage.setItem(key, value);
+      return { key: key, value: value, shared: false };
+    },
+    delete: async function (key) {
+      localStorage.removeItem(key);
+      return { key: key, deleted: true, shared: false };
+    },
+    list: async function (prefix) {
+      var out = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (!prefix || k.indexOf(prefix) === 0) out.push(k);
+      }
+      return { keys: out, prefix: prefix, shared: false };
+    }
+  };
+
+  window.addEventListener("error", function (e) {
+    var r = document.getElementById("boot");
+    if (r) r.textContent = "Error: " + (e.message || e);
+  });
+</script>
+
+<script type="text/babel" data-presets="react">
+(function () {
+const { useState, useEffect, useMemo, useCallback } = React;
+
+
+/* ------------------------------------------------------------------ */
+/*  Palette + type                                                     */
+/* ------------------------------------------------------------------ */
+const C = {
+  paper: "#F5F7F4",
+  panel: "#FFFFFF",
+  ink: "#142433",
+  ink2: "#48596A",
+  ink3: "#8593A0",
+  rule: "#DDE2DB",
+  cleared: "#1D6B52",
+  clearedBg: "#E4F0EA",
+  pending: "#9A6412",
+  pendingBg: "#F6EEDF",
+  skip: "#95A0A9",
+  skipBg: "#EDEFEC",
+  alert: "#A03129",
+  alertBg: "#F8E9E7",
+};
+
+const fig = {
+  fontVariantNumeric: "tabular-nums",
+  fontFeatureSettings: '"tnum"',
+  letterSpacing: "-0.01em",
+};
+
+const SANS =
+  '-apple-system, BlinkMacSystemFont, "SF Pro Text", ui-sans-serif, system-ui, sans-serif';
+
+const STORAGE_KEY = "billplanner:v1";
+
+/* status model: unset -> pending -> cleared -> skipped -> unset */
+const OWED = ["unset", "pending"];
+
+/* ------------------------------------------------------------------ */
+/*  Seed data — from Monthly_Bill_Plannner_Template_.numbers           */
+/* ------------------------------------------------------------------ */
+const SEED_BILLS = [
+  { name: "AMEX Loan", amount: 500, week: 0, dueDay: null, variable: false, active: true },
+  { name: "NelNet Loan", amount: 50, week: 0, dueDay: null, variable: false, active: true },
+  { name: "FPL", amount: 296, week: 0, dueDay: null, variable: true, active: true },
+  { name: "Citi Card", amount: 32, week: 0, dueDay: null, variable: true, active: true },
+  { name: "Wells Fargo Card", amount: 176, week: 0, dueDay: null, variable: true, active: true },
+  { name: "Boat Loan", amount: 425, week: 0, dueDay: null, variable: false, active: true },
+  { name: "Scott Gannon", amount: 90, week: 1, dueDay: null, variable: false, active: true },
+  { name: "Truist Mortgage", amount: 700, week: 1, dueDay: null, variable: false, active: true },
+  { name: "Wells Fargo Mortgage", amount: 985, week: 1, dueDay: null, variable: false, active: true },
+  { name: "Tesla Loan", amount: 585, week: 1, dueDay: null, variable: false, active: true },
+  { name: "Fairwinds HELOC", amount: 500, week: 1, dueDay: null, variable: false, active: true },
+  { name: "Toyota Loan", amount: 587, week: 2, dueDay: null, variable: false, active: true },
+  { name: "City of Edgewater", amount: 199, week: 2, dueDay: null, variable: true, active: true },
+  { name: "James St. Mortgage", amount: 503, week: 2, dueDay: null, variable: false, active: true },
+  { name: "AMEX Card", amount: 0, week: 2, dueDay: null, variable: true, active: false },
+  { name: "Apple Card", amount: 0, week: 2, dueDay: null, variable: true, active: false },
+  { name: "North Causeway", amount: 0, week: 2, dueDay: null, variable: false, active: false },
+  { name: "Miscellaneous", amount: 0, week: 3, dueDay: null, variable: true, active: true },
+];
+
+const uid = () => Math.random().toString(36).slice(2, 10);
+
+const freshState = () => ({
+  version: 2,
+  typicalPay: 2200,
+  showRunning: true,
+  seenIntro: false,
+  bills: SEED_BILLS.map((b) => ({ id: uid(), ...b })),
+  months: {},
+});
+
+/* ------------------------------------------------------------------ */
+/*  Dates                                                              */
+/* ------------------------------------------------------------------ */
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+function fridaysIn(year, month0) {
+  const out = [];
+  const d = new Date(year, month0, 1);
+  while (d.getDay() !== 5) d.setDate(d.getDate() + 1);
+  while (d.getMonth() === month0) {
+    out.push(new Date(d));
+    d.setDate(d.getDate() + 7);
+  }
+  return out;
+}
+const monthKey = (y, m0) => `${y}-${String(m0 + 1).padStart(2, "0")}`;
+const parseKey = (k) => {
+  const [y, m] = k.split("-").map(Number);
+  return { y, m0: m - 1 };
+};
+const daysInMonth = (y, m0) => new Date(y, m0 + 1, 0).getDate();
+const iso = (d) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+function assignWeek(bill, fridays, y, m0) {
+  const last = fridays.length - 1;
+  if (bill.dueDay == null) return Math.min(bill.week ?? 0, last);
+  const due = new Date(y, m0, Math.min(bill.dueDay, daysInMonth(y, m0)));
+  let idx = 0;
+  for (let i = 0; i < fridays.length; i++) if (fridays[i] <= due) idx = i;
+  return idx;
+}
+
+function buildMonth(key, bills, typicalPay) {
+  const { y, m0 } = parseKey(key);
+  const fridays = fridaysIn(y, m0);
+  return {
+    weeks: fridays.map((f) => ({
+      date: iso(f),
+      pay: typicalPay,
+      payEntered: false,
+      actualBalance: null,
+    })),
+    items: bills
+      .filter((b) => b.active)
+      .map((b) => ({
+        id: uid(),
+        billId: b.id,
+        name: b.name,
+        amount: b.amount,
+        weekIndex: assignWeek(b, fridays, y, m0),
+        status: "unset",
+        variable: b.variable,
+        confirmed: !b.variable,
+      })),
+  };
+}
+
+const money = (n) =>
+  `${n < 0 ? "\u2212" : ""}$${Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+const money0 = (n) =>
+  `${n < 0 ? "\u2212" : ""}$${Math.abs(n).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+
+const nextStatus = (s) =>
+  s === "unset" ? "pending" : s === "pending" ? "cleared" : s === "cleared" ? "skipped" : "unset";
+
+/* ------------------------------------------------------------------ */
+/*  Shared pieces                                                      */
+/* ------------------------------------------------------------------ */
+const CHIP = {
+  unset: { t: "Not marked", fg: C.ink2, bg: C.panel, border: `1.5px dashed ${C.ink3}` },
+  pending: { t: "Pending", fg: C.pending, bg: C.pendingBg, border: "1.5px solid transparent" },
+  cleared: { t: "Cleared", fg: C.cleared, bg: C.clearedBg, border: "1.5px solid transparent" },
+  skipped: { t: "Skipped", fg: C.skip, bg: C.skipBg, border: "1.5px solid transparent" },
+};
+
+function Chip({ status, onClick }) {
+  const s = CHIP[status] || CHIP.unset;
+  return (
+    <button
+      onClick={onClick}
+      className="rounded-full"
+      style={{
+        background: s.bg,
+        color: s.fg,
+        border: s.border,
+        padding: "4px 11px",
+        fontSize: 12,
+        fontWeight: 600,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {s.t}
+    </button>
+  );
+}
+
+function AmountInput({ value, onCommit, style, align = "right", prefix = "$" }) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState("");
+  if (!editing)
+    return (
+      <button
+        onClick={() => {
+          setDraft(String(value ?? ""));
+          setEditing(true);
+        }}
+        style={{ background: "none", border: "none", padding: "2px 0", color: "inherit", textAlign: align, ...fig, ...style }}
+      >
+        {prefix}
+        {Number(value || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      </button>
+    );
+  return (
+    <input
+      autoFocus
+      inputMode="decimal"
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={() => {
+        const n = parseFloat(draft.replace(/[^0-9.\-]/g, ""));
+        onCommit(isNaN(n) ? 0 : n);
+        setEditing(false);
+      }}
+      onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+      className="rounded px-2 py-1"
+      style={{ width: 110, textAlign: align, border: `1.5px solid ${C.ink}`, background: C.panel, color: C.ink, fontSize: 16, ...fig }}
+    />
+  );
+}
+
+function Row({ label, value, bold, neg }) {
+  return (
+    <div className="flex items-baseline justify-between" style={{ padding: "3px 0" }}>
+      <span style={{ fontSize: bold ? 14 : 13, color: bold ? C.ink : C.ink2, fontWeight: bold ? 600 : 400 }}>{label}</span>
+      <span style={{ fontSize: bold ? 19 : 14, fontWeight: bold ? 700 : 600, color: neg ? C.alert : bold ? C.ink : C.ink2, ...fig }}>
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function Toggle({ on, onClick, labelOn, labelOff }) {
+  return (
+    <button
+      onClick={onClick}
+      className="rounded-full px-2.5 py-1"
+      style={{
+        fontSize: 12,
+        fontWeight: 600,
+        border: `1px solid ${on ? C.ink : C.rule}`,
+        background: on ? C.ink : C.panel,
+        color: on ? C.paper : C.ink3,
+      }}
+    >
+      {on ? labelOn : labelOff}
+    </button>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Main                                                               */
+/* ------------------------------------------------------------------ */
+function BillPlanner() {
+  const now = new Date();
+  const [state, setState] = useState(null);
+  const [cur, setCur] = useState(monthKey(now.getFullYear(), now.getMonth()));
+  const [tab, setTab] = useState("month");
+  const [wk, setWk] = useState(0);
+  const [saveErr, setSaveErr] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await window.storage.get(STORAGE_KEY);
+        setState(r && r.value ? JSON.parse(r.value) : freshState());
+      } catch {
+        setState(freshState());
+      }
+    })();
+  }, []);
+
+  const persist = useCallback(async (next) => {
+    setState(next);
+    try {
+      await window.storage.set(STORAGE_KEY, JSON.stringify(next));
+      setSaveErr(false);
+    } catch {
+      setSaveErr(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!state) return;
+    if (!state.months[cur]) {
+      persist({ ...state, months: { ...state.months, [cur]: buildMonth(cur, state.bills, state.typicalPay) } });
+    }
+  }, [state, cur, persist]);
+
+  const month = state?.months?.[cur];
+  const weekCount = month?.weeks?.length;
+
+  /* open on the current week when viewing the live month */
+  useEffect(() => {
+    if (!month) return;
+    const today = iso(new Date());
+    let idx = 0;
+    let found = false;
+    month.weeks.forEach((w, i) => {
+      if (w.date <= today) {
+        idx = i;
+        found = true;
+      }
+    });
+    setWk(found ? idx : 0);
+  }, [cur, weekCount]);
+
+  const calc = useMemo(() => {
+    if (!month) return null;
+    let carry = 0;
+    const weeks = month.weeks.map((w, i) => {
+      const items = month.items.filter((it) => it.weekIndex === i);
+      const owed = items.filter((it) => it.status !== "skipped").reduce((s, it) => s + it.amount, 0);
+      const stillOwed = items.filter((it) => OWED.includes(it.status)).reduce((s, it) => s + it.amount, 0);
+      const unmarked = items.filter((it) => it.status === "unset").length;
+      const openCount = items.filter((it) => OWED.includes(it.status)).length;
+      const margin = w.pay - owed;
+      const base = w.actualBalance != null ? w.actualBalance : carry + w.pay;
+      const runningEnd = base - (w.actualBalance != null ? stillOwed : owed);
+      const inAccount = w.actualBalance != null ? w.actualBalance - stillOwed : null;
+      carry = runningEnd;
+      return { items, owed, stillOwed, unmarked, openCount, margin, runningEnd, inAccount, anchored: w.actualBalance != null };
+    });
+    const open = month.items.filter((it) => OWED.includes(it.status));
+    return {
+      weeks,
+      leftToPay: open.reduce((s, it) => s + it.amount, 0),
+      leftCount: open.length,
+      unmarked: month.items.filter((it) => it.status === "unset").length,
+      endOfMonth: carry,
+    };
+  }, [month]);
+
+  const patchMonth = (fn) => {
+    const m = state.months[cur];
+    persist({ ...state, months: { ...state.months, [cur]: fn(m) } });
+  };
+  const patchItem = (id, patch) =>
+    patchMonth((m) => ({ ...m, items: m.items.map((it) => (it.id === id ? { ...it, ...patch } : it)) }));
+  const patchWeek = (i, patch) =>
+    patchMonth((m) => ({ ...m, weeks: m.weeks.map((w, k) => (k === i ? { ...w, ...patch } : w)) }));
+  const cycle = (it) => patchItem(it.id, { status: nextStatus(it.status) });
+
+  const shiftMonth = (d) => {
+    const { y, m0 } = parseKey(cur);
+    const nd = new Date(y, m0 + d, 1);
+    setCur(monthKey(nd.getFullYear(), nd.getMonth()));
+    setWk(0);
+  };
+
+  if (!state || !month || !calc)
+    return <div style={{ fontFamily: SANS, color: C.ink3, padding: 24, background: C.paper }}>Loading your months…</div>;
+
+  const { y, m0 } = parseKey(cur);
+  const safeWk = Math.min(wk, month.weeks.length - 1);
+
+  return (
+    <div style={{ fontFamily: SANS, background: C.paper, color: C.ink, minHeight: 600, paddingBottom: 76 }}>
+      {saveErr && (
+        <div style={{ background: C.alertBg, color: C.alert, fontSize: 13, padding: "8px 16px" }}>
+          Changes aren't saving. Export your data from the Data tab before closing.
+        </div>
+      )}
+
+      {!state.seenIntro && (
+        <div style={{ background: C.pendingBg, padding: "12px 16px", fontSize: 13, color: C.pending, lineHeight: 1.5 }}>
+          Seeded from your May 2025 sheet — amounts are last month's. Tap any figure to correct it.
+          <button
+            onClick={() => persist({ ...state, seenIntro: true })}
+            style={{ display: "block", marginTop: 6, background: "none", border: "none", padding: 0, color: C.pending, fontWeight: 700, fontSize: 13 }}
+          >
+            Got it
+          </button>
+        </div>
+      )}
+
+      {(tab === "month" || tab === "review") && (
+        <header style={{ background: C.ink, color: C.paper, padding: "12px 16px 16px" }}>
+          <div className="flex items-center justify-between">
+            <button onClick={() => shiftMonth(-1)} style={navBtn}>‹</button>
+            <div style={{ fontSize: 15, fontWeight: 600 }}>{MONTHS[m0]} {y}</div>
+            <button onClick={() => shiftMonth(1)} style={navBtn}>›</button>
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <div style={{ fontSize: 13, color: "#93A6B8" }}>Still to pay this month</div>
+            <div style={{ fontSize: 40, fontWeight: 700, lineHeight: 1.05, marginTop: 2, ...fig }}>
+              {money0(calc.leftToPay)}
+            </div>
+            <div style={{ fontSize: 13, color: "#93A6B8", marginTop: 5, ...fig }}>
+              {calc.leftCount} open · projected month end{" "}
+              <span style={{ color: calc.endOfMonth < 0 ? "#E8A29B" : "#8FD3B6", fontWeight: 600 }}>
+                {money0(calc.endOfMonth)}
+              </span>
+            </div>
+          </div>
+        </header>
+      )}
+
+      {tab === "month" && (
+        <MonthView {...{ state, month, calc, wk: safeWk, setWk, patchItem, patchWeek, patchMonth, cycle, persist }} />
+      )}
+      {tab === "review" && <ReviewView {...{ state, month, cycle, setTab, setWk }} />}
+      {tab === "bills" && <BillsView {...{ state, persist, cur, month, patchMonth }} />}
+      {tab === "data" && <DataTab {...{ state, persist }} />}
+
+      <nav className="flex" style={{ position: "sticky", bottom: 0, background: C.panel, borderTop: `1px solid ${C.rule}`, paddingBottom: 6 }}>
+        {[["month", "Weeks"], ["review", "Review"], ["bills", "Bills"], ["data", "Data"]].map(([k, label]) => (
+          <button
+            key={k}
+            onClick={() => setTab(k)}
+            className="flex-1 py-3"
+            style={{
+              background: "none",
+              border: "none",
+              borderTop: tab === k ? `2px solid ${C.ink}` : "2px solid transparent",
+              marginTop: -1,
+              color: tab === k ? C.ink : C.ink3,
+              fontWeight: tab === k ? 700 : 500,
+              fontSize: 14,
+            }}
+          >
+            {label}
+            {k === "review" && calc.leftCount > 0 && (
+              <span
+                style={{
+                  display: "inline-block",
+                  marginLeft: 5,
+                  padding: "1px 6px",
+                  borderRadius: 999,
+                  background: calc.unmarked > 0 ? C.alert : C.pending,
+                  color: "#fff",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  ...fig,
+                }}
+              >
+                {calc.leftCount}
+              </span>
+            )}
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Weeks — one week at a time                                         */
+/* ------------------------------------------------------------------ */
+function MonthView({ state, month, calc, wk, setWk, patchItem, patchWeek, patchMonth, cycle, persist }) {
+  const [newName, setNewName] = useState("");
+  const [adding, setAdding] = useState(false);
+  const [toast, setToast] = useState("");
+  const w = month.weeks[wk];
+  const c = calc.weeks[wk];
+  const d = new Date(w.date + "T12:00:00");
+  const today = iso(new Date());
+
+  const addOneOff = () => {
+    if (!newName.trim()) return;
+    patchMonth((m) => ({
+      ...m,
+      items: [...m.items, { id: uid(), billId: null, name: newName.trim(), amount: 0, weekIndex: wk, status: "unset", variable: true, confirmed: false }],
+    }));
+    setNewName("");
+    setAdding(false);
+  };
+
+  const weekLabel = (i) => {
+    const dd = new Date(month.weeks[i].date + "T12:00:00");
+    return `${MON[dd.getMonth()]} ${dd.getDate()}`;
+  };
+
+  const moveTo = (it, target) => {
+    if (target === it.weekIndex) return;
+    patchItem(it.id, { weekIndex: target });
+    setToast(`${it.name} moved to ${weekLabel(target)}`);
+    setWk(target); // follow the bill so you see it land
+    setTimeout(() => setToast(""), 2600);
+  };
+
+  return (
+    <div>
+      {toast && (
+        <div style={{ background: C.clearedBg, color: C.cleared, fontSize: 13, fontWeight: 600, padding: "10px 16px" }}>
+          {toast}
+        </div>
+      )}
+
+      <div className="flex overflow-x-auto" style={{ background: C.panel, borderBottom: `1px solid ${C.rule}`, gap: 8, padding: "10px 12px" }}>
+        {month.weeks.map((ww, i) => {
+          const wc = calc.weeks[i];
+          const dd = new Date(ww.date + "T12:00:00");
+          const on = i === wk;
+          const done = wc.openCount === 0;
+          return (
+            <button
+              key={i}
+              onClick={() => setWk(i)}
+              className="rounded-lg"
+              style={{
+                flex: "0 0 auto",
+                padding: "8px 13px",
+                background: on ? C.ink : C.paper,
+                color: on ? C.paper : C.ink2,
+                border: `1px solid ${on ? C.ink : C.rule}`,
+                textAlign: "left",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <div style={{ fontSize: 14, fontWeight: 700, ...fig }}>
+                {MON[dd.getMonth()]} {dd.getDate()}
+              </div>
+              <div
+                style={{
+                  fontSize: 11,
+                  marginTop: 2,
+                  fontWeight: 600,
+                  color: on ? "#93A6B8" : done ? C.cleared : wc.unmarked > 0 ? C.alert : C.pending,
+                }}
+              >
+                {done ? "all set" : `${wc.openCount} open`}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      <section style={{ background: C.panel }}>
+        <div style={{ padding: "14px 16px 10px" }}>
+          <div className="flex items-baseline justify-between">
+            <div style={{ fontSize: 19, fontWeight: 700 }}>
+              {DOW[d.getDay()]} {MON[d.getMonth()]} {d.getDate()}
+              {w.date === today && <span style={{ ...estStyle, background: C.clearedBg, color: C.cleared }}>today</span>}
+            </div>
+            <div style={{ fontSize: 12, color: C.ink3 }}>Week {wk + 1} of {month.weeks.length}</div>
+          </div>
+
+          <div className="flex items-center justify-between" style={{ marginTop: 10 }}>
+            <div style={{ fontSize: 14, color: C.ink2 }}>
+              Payroll deposit{!w.payEntered && <span style={estStyle}>est.</span>}
+            </div>
+            <AmountInput
+              value={w.pay}
+              onCommit={(n) => patchWeek(wk, { pay: n, payEntered: true })}
+              prefix="+$"
+              style={{ fontSize: 16, fontWeight: 600, color: C.cleared }}
+            />
+          </div>
+        </div>
+
+        <div style={{ padding: "0 16px" }}>
+          {c.items.length === 0 && (
+            <div style={{ padding: "16px 0", fontSize: 14, color: C.ink3, borderTop: `1px solid ${C.rule}`, lineHeight: 1.5 }}>
+              No bills in this week. Add a one-off below, or use the week dropdown on a bill in another week.
+            </div>
+          )}
+          {c.items.map((it) => {
+            const dim = it.status === "skipped";
+            return (
+              <div key={it.id} style={{ borderTop: `1px solid ${C.rule}`, padding: "11px 0" }}>
+                <div className="flex items-baseline justify-between" style={{ gap: 10 }}>
+                  <div style={{ fontSize: 16, fontWeight: 500, color: dim ? C.skip : C.ink, textDecoration: dim ? "line-through" : "none" }}>
+                    {it.name}
+                  </div>
+                  <AmountInput
+                    value={it.amount}
+                    onCommit={(n) => patchItem(it.id, { amount: n, confirmed: true })}
+                    prefix="−$"
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 600,
+                      color: dim ? C.skip : C.ink,
+                      textDecoration: dim ? "line-through" : "none",
+                      whiteSpace: "nowrap",
+                    }}
+                  />
+                </div>
+                <div className="flex items-center justify-between" style={{ marginTop: 6, gap: 10 }}>
+                  <div className="flex items-center" style={{ gap: 8 }}>
+                    <Chip status={it.status} onClick={() => cycle(it)} />
+                    {it.variable && !it.confirmed && <span style={estStyle}>estimate</span>}
+                  </div>
+                  <div className="flex items-center" style={{ gap: 10 }}>
+                    {it.billId && <SetDefault {...{ state, persist, it }} />}
+                    <select
+                      value={it.weekIndex}
+                      onChange={(e) => moveTo(it, Number(e.target.value))}
+                      style={{
+                        WebkitAppearance: "none",
+                        appearance: "none",
+                        background: C.paper,
+                        border: `1.5px solid ${C.ink3}`,
+                        borderRadius: 999,
+                        color: C.ink2,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        padding: "8px 26px 8px 12px",
+                        minHeight: 36,
+                        backgroundImage:
+                          "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='7'><path d='M1 1l4 4 4-4' stroke='%2348596A' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>\")",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 10px center",
+                      }}
+                    >
+                      {month.weeks.map((ww, i) => (
+                        <option key={i} value={i}>
+                          {i === it.weekIndex ? weekLabel(i) : `Move to ${weekLabel(i)}`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+
+          {adding ? (
+            <div className="flex items-center" style={{ gap: 8, padding: "10px 0", borderTop: `1px solid ${C.rule}` }}>
+              <input
+                autoFocus
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addOneOff()}
+                placeholder="One-off expense"
+                className="flex-1 rounded px-2 py-2"
+                style={{ border: `1.5px solid ${C.ink}`, fontSize: 15, background: C.panel, color: C.ink }}
+              />
+              <button onClick={addOneOff} style={{ ...linkBtn, fontWeight: 700 }}>Add</button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setAdding(true)}
+              style={{ ...linkBtn, display: "block", width: "100%", textAlign: "left", padding: "12px 0", borderTop: `1px solid ${C.rule}` }}
+            >
+              + One-off expense
+            </button>
+          )}
+        </div>
+
+        <div style={{ borderTop: `1px solid ${C.rule}`, background: "#FAFBF9", padding: "10px 16px 14px" }}>
+          <Row label="Left from this paycheck" value={money(c.margin)} bold neg={c.margin < 0} />
+          {state.showRunning && (
+            <Row label={c.anchored ? "Running balance (anchored)" : "Running balance"} value={money(c.runningEnd)} neg={c.runningEnd < 0} />
+          )}
+          {c.inAccount != null && <Row label="Should be in your account" value={money(c.inAccount)} neg={c.inAccount < 0} />}
+          <div className="flex items-center justify-between" style={{ marginTop: 8 }}>
+            <span style={{ fontSize: 13, color: C.ink2 }}>Actual bank balance</span>
+            {w.actualBalance == null ? (
+              <AmountInput value={0} onCommit={(n) => patchWeek(wk, { actualBalance: n })} style={{ fontSize: 14, color: C.ink3 }} />
+            ) : (
+              <div className="flex items-center" style={{ gap: 10 }}>
+                <AmountInput value={w.actualBalance} onCommit={(n) => patchWeek(wk, { actualBalance: n })} style={{ fontSize: 14, fontWeight: 600, color: C.ink }} />
+                <button onClick={() => patchWeek(wk, { actualBalance: null })} style={{ ...linkBtn, fontSize: 12 }}>Clear</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <p style={{ fontSize: 12, color: C.ink3, padding: "14px 16px 8px", lineHeight: 1.6 }}>
+        “Left from this paycheck” matches your spreadsheet — each Friday stands alone. The running balance carries
+        leftovers forward, which drifts because everyday spending isn't tracked here. Enter your actual bank balance on
+        any Friday to re-anchor it. Use the date dropdown on a bill to move it to a different Friday.
+      </p>
+    </div>
+  );
+}
+
+function SetDefault({ state, persist, it }) {
+  const bill = state.bills.find((b) => b.id === it.billId);
+  if (!bill || bill.amount === it.amount) return null;
+  return (
+    <button
+      onClick={() => persist({ ...state, bills: state.bills.map((b) => (b.id === it.billId ? { ...b, amount: it.amount } : b)) })}
+      style={{ ...linkBtn, fontSize: 12 }}
+    >
+      Set as default
+    </button>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Review — everything not yet cleared, in one place                  */
+/* ------------------------------------------------------------------ */
+function ReviewView({ state, month, cycle, setTab, setWk }) {
+  const wkLabel = (i) => {
+    const w = month.weeks[i];
+    if (!w) return "—";
+    const d = new Date(w.date + "T12:00:00");
+    return `${MON[d.getMonth()]} ${d.getDate()}`;
+  };
+
+  const by = (s) => month.items.filter((it) => it.status === s).sort((a, b) => a.weekIndex - b.weekIndex);
+  const unset = by("unset");
+  const pending = by("pending");
+  const cleared = by("cleared");
+  const skipped = by("skipped");
+
+  const inMonth = new Set(month.items.map((it) => it.billId).filter(Boolean));
+  const missing = state.bills.filter((b) => b.active && !inMonth.has(b.id));
+  const estimates = month.items.filter((it) => it.variable && !it.confirmed && it.status !== "skipped");
+  const zeros = month.items.filter((it) => it.amount === 0 && it.status !== "skipped");
+
+  const total = (arr) => arr.reduce((s, it) => s + it.amount, 0);
+  const jump = (it) => {
+    setWk(it.weekIndex);
+    setTab("month");
+  };
+
+  const Group = ({ title, note, items, tone }) => {
+    if (!items.length) return null;
+    return (
+      <section style={{ background: C.panel, marginTop: 10 }}>
+        <div className="flex items-baseline justify-between" style={{ padding: "12px 16px 8px", borderTop: `2px solid ${tone}`, gap: 10 }}>
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 700 }}>
+              {title} <span style={{ color: C.ink3, fontWeight: 600 }}>{items.length}</span>
+            </div>
+            {note && <div style={{ fontSize: 12, color: C.ink3, marginTop: 2, lineHeight: 1.4 }}>{note}</div>}
+          </div>
+          <div style={{ fontSize: 15, fontWeight: 700, ...fig, whiteSpace: "nowrap" }}>{money0(total(items))}</div>
+        </div>
+        <div style={{ padding: "0 16px" }}>
+          {items.map((it) => (
+            <div key={it.id} style={{ borderTop: `1px solid ${C.rule}`, padding: "10px 0" }}>
+              <div className="flex items-baseline justify-between" style={{ gap: 10 }}>
+                <button onClick={() => jump(it)} style={{ background: "none", border: "none", padding: 0, textAlign: "left", flex: 1 }}>
+                  <span style={{ fontSize: 15, fontWeight: 500, color: C.ink }}>{it.name}</span>
+                </button>
+                <span style={{ fontSize: 15, fontWeight: 600, ...fig, whiteSpace: "nowrap" }}>{money(it.amount)}</span>
+              </div>
+              <div className="flex items-center justify-between" style={{ marginTop: 6, gap: 10 }}>
+                <span style={{ fontSize: 12, color: C.ink3 }}>
+                  {wkLabel(it.weekIndex)}
+                  {it.variable && !it.confirmed ? " · estimate" : ""}
+                </span>
+                <Chip status={it.status} onClick={() => cycle(it)} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  };
+
+  return (
+    <div>
+      {!unset.length && !pending.length && (
+        <div style={{ background: C.clearedBg, color: C.cleared, padding: "14px 16px", fontSize: 14, fontWeight: 600 }}>
+          Every bill this month is marked cleared or skipped.
+        </div>
+      )}
+
+      <Group title="Not marked yet" note="You haven't touched these — most likely to get missed." items={unset} tone={C.alert} />
+      <Group title="Pending" note="Scheduled, not out of the account yet." items={pending} tone={C.pending} />
+
+      {(missing.length > 0 || estimates.length > 0 || zeros.length > 0) && (
+        <section style={{ background: C.panel, marginTop: 10 }}>
+          <div style={{ padding: "12px 16px 4px", borderTop: `2px solid ${C.ink3}` }}>
+            <div style={{ fontSize: 16, fontWeight: 700 }}>Worth a look</div>
+          </div>
+          <div style={{ padding: "0 16px 12px" }}>
+            {missing.length > 0 && (
+              <Note text={`${missing.map((b) => b.name).join(", ")} ${missing.length === 1 ? "is" : "are"} active in your template but missing from this month.`} />
+            )}
+            {estimates.length > 0 && (
+              <Note text={`Still an estimate: ${estimates.map((i) => i.name).join(", ")}.`} />
+            )}
+            {zeros.length > 0 && <Note text={`Set to $0: ${zeros.map((i) => i.name).join(", ")}.`} />}
+          </div>
+        </section>
+      )}
+
+      <Group title="Cleared" note="Confirmed out of your checking account." items={cleared} tone={C.cleared} />
+      <Group title="Skipped this month" note="Not owed — excluded from every total." items={skipped} tone={C.skip} />
+
+      <p style={{ fontSize: 12, color: C.ink3, padding: "14px 16px 8px", lineHeight: 1.6 }}>
+        Tap a bill's name to jump to its week. Tap its status to change it without leaving this screen.
+      </p>
+    </div>
+  );
+}
+
+function Note({ text }) {
+  return (
+    <div style={{ borderTop: `1px solid ${C.rule}`, padding: "10px 0", fontSize: 13, color: C.ink2, lineHeight: 1.5 }}>{text}</div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Bills (template)                                                   */
+/* ------------------------------------------------------------------ */
+function BillsView({ state, persist, cur, month, patchMonth }) {
+  const [newName, setNewName] = useState("");
+  const [toast, setToast] = useState("");
+  const upd = (id, patch) => persist({ ...state, bills: state.bills.map((b) => (b.id === id ? { ...b, ...patch } : b)) });
+
+  /* Week/due-day is a schedule change: apply it to the template AND to the
+     month currently open, so the Weeks tab reflects it immediately. */
+  const setSchedule = (b, patch) => {
+    const nextBill = { ...b, ...patch };
+    const { y, m0 } = parseKey(cur);
+    const fridays = fridaysIn(y, m0);
+    const target = assignWeek(nextBill, fridays, y, m0);
+    const m = state.months[cur];
+    const nextMonth = m
+      ? { ...m, items: m.items.map((it) => (it.billId === b.id ? { ...it, weekIndex: target } : it)) }
+      : m;
+    persist({
+      ...state,
+      bills: state.bills.map((x) => (x.id === b.id ? nextBill : x)),
+      months: nextMonth ? { ...state.months, [cur]: nextMonth } : state.months,
+    });
+    const d = fridays[target];
+    const inMonth = m && m.items.some((it) => it.billId === b.id);
+    setToast(
+      inMonth
+        ? `${b.name} moved to ${MON[d.getMonth()]} ${d.getDate()}`
+        : `${b.name} scheduled for future months. It isn't in ${MONTHS[m0]}.`
+    );
+    setTimeout(() => setToast(""), 3000);
+  };
+
+  const reseed = () => {
+    const rebuilt = buildMonth(cur, state.bills, state.typicalPay);
+    rebuilt.weeks = rebuilt.weeks.map((w, i) =>
+      month.weeks[i]
+        ? { ...w, pay: month.weeks[i].pay, payEntered: month.weeks[i].payEntered, actualBalance: month.weeks[i].actualBalance }
+        : w
+    );
+    patchMonth(() => rebuilt);
+  };
+
+  const ord = (d) =>
+    d % 10 === 1 && d !== 11 ? "st" : d % 10 === 2 && d !== 12 ? "nd" : d % 10 === 3 && d !== 13 ? "rd" : "th";
+
+  return (
+    <div>
+      <header style={{ background: C.ink, color: C.paper, padding: 16 }}>
+        <div style={{ fontSize: 20, fontWeight: 700 }}>Your standing bills</div>
+        <div style={{ fontSize: 13, color: "#93A6B8", marginTop: 4, lineHeight: 1.5 }}>
+          Amounts here are defaults for new months — changing one never rewrites a month you've already filled in.
+          Changing a bill's week moves it in {MONTHS[parseKey(cur).m0]} too.
+        </div>
+      </header>
+
+      {toast && (
+        <div style={{ background: C.clearedBg, color: C.cleared, fontSize: 13, fontWeight: 600, padding: "10px 16px" }}>
+          {toast}
+        </div>
+      )}
+
+      <div style={{ background: C.panel, padding: "0 16px" }}>
+        {state.bills.map((b) => (
+          <div key={b.id} style={{ borderTop: `1px solid ${C.rule}`, padding: "12px 0" }}>
+            <div className="flex items-baseline justify-between" style={{ gap: 10 }}>
+              <input
+                value={b.name}
+                onChange={(e) => upd(b.id, { name: e.target.value })}
+                style={{ flex: 1, border: "none", background: "none", fontSize: 16, fontWeight: 500, color: b.active ? C.ink : C.skip, padding: 0 }}
+              />
+              <AmountInput value={b.amount} onCommit={(n) => upd(b.id, { amount: n })} style={{ fontSize: 16, fontWeight: 600 }} />
+            </div>
+            <div className="flex items-center" style={{ gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+              <Toggle on={b.active} onClick={() => upd(b.id, { active: !b.active })} labelOn="Active" labelOff="Inactive" />
+              <Toggle on={b.variable} onClick={() => upd(b.id, { variable: !b.variable })} labelOn="Variable" labelOff="Fixed" />
+              <select
+                value={b.dueDay == null ? "w" + (b.week ?? 0) : "d" + b.dueDay}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (v[0] === "w") setSchedule(b, { dueDay: null, week: Number(v.slice(1)) });
+                  else setSchedule(b, { dueDay: Number(v.slice(1)) });
+                }}
+                style={{ fontSize: 12, border: `1px solid ${C.rule}`, borderRadius: 999, padding: "4px 8px", background: C.panel, color: C.ink2 }}
+              >
+                {[0, 1, 2, 3, 4].map((w) => (
+                  <option key={w} value={"w" + w}>Week {w + 1}</option>
+                ))}
+                {Array.from({ length: 31 }, (_, k) => k + 1).map((d) => (
+                  <option key={d} value={"d" + d}>Due the {d}{ord(d)}</option>
+                ))}
+              </select>
+              <button
+                onClick={() => persist({ ...state, bills: state.bills.filter((x) => x.id !== b.id) })}
+                style={{ ...linkBtn, fontSize: 12, color: C.alert, marginLeft: "auto" }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+
+        <div className="flex items-center" style={{ gap: 8, padding: "12px 0", borderTop: `1px solid ${C.rule}` }}>
+          <input
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder="Add a bill"
+            className="flex-1 rounded px-2 py-2"
+            style={{ border: `1.5px solid ${C.rule}`, fontSize: 15, background: C.panel, color: C.ink }}
+          />
+          <button
+            onClick={() => {
+              if (!newName.trim()) return;
+              persist({ ...state, bills: [...state.bills, { id: uid(), name: newName.trim(), amount: 0, week: 0, dueDay: null, variable: true, active: true }] });
+              setNewName("");
+            }}
+            style={{ ...linkBtn, fontWeight: 700 }}
+          >
+            Add
+          </button>
+        </div>
+      </div>
+
+      <div style={{ padding: 16 }}>
+        <button onClick={reseed} style={{ ...btn, width: "100%" }}>
+          Rebuild {MONTHS[parseKey(cur).m0]} from these defaults
+        </button>
+        <p style={{ fontSize: 12, color: C.ink3, marginTop: 8, lineHeight: 1.6 }}>
+          Replaces this month's bill lines and resets every status to Not marked. Your entered payroll and bank balances
+          are kept.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Data                                                               */
+/* ------------------------------------------------------------------ */
+function DataTab({ state, persist }) {
+  const [blob, setBlob] = useState("");
+  const [msg, setMsg] = useState("");
+  const months = Object.keys(state.months).sort();
+
+  return (
+    <div>
+      <header style={{ background: C.ink, color: C.paper, padding: 16 }}>
+        <div style={{ fontSize: 20, fontWeight: 700 }}>Your data</div>
+        <div style={{ fontSize: 13, color: "#93A6B8", marginTop: 4 }}>
+          {months.length} {months.length === 1 ? "month" : "months"} stored
+        </div>
+      </header>
+
+      <div style={{ background: C.panel, padding: 16 }}>
+        <div className="flex items-center justify-between" style={{ paddingBottom: 12 }}>
+          <span style={{ fontSize: 15 }}>Typical paycheck</span>
+          <AmountInput value={state.typicalPay} onCommit={(n) => persist({ ...state, typicalPay: n })} style={{ fontSize: 16, fontWeight: 600 }} />
+        </div>
+        <div className="flex items-center justify-between" style={{ borderTop: `1px solid ${C.rule}`, paddingTop: 12 }}>
+          <span style={{ fontSize: 15 }}>Show running balance</span>
+          <Toggle on={state.showRunning} onClick={() => persist({ ...state, showRunning: !state.showRunning })} labelOn="On" labelOff="Off" />
+        </div>
+      </div>
+
+      <div style={{ padding: 16 }}>
+        <p style={{ fontSize: 13, color: C.ink2, lineHeight: 1.6, marginBottom: 10 }}>
+          Back this up monthly. Copy the text below into a note or email to yourself — it's everything, and it's how
+          you'd move to a hosted version later.
+        </p>
+        <button onClick={() => setBlob(JSON.stringify(state))} style={{ ...btn, width: "100%" }}>Export everything</button>
+        <textarea
+          value={blob}
+          onChange={(e) => setBlob(e.target.value)}
+          placeholder="Exported data appears here. You can also paste a backup in and restore it."
+          className="rounded"
+          style={{
+            width: "100%",
+            height: 130,
+            marginTop: 12,
+            padding: 10,
+            fontSize: 11,
+            border: `1px solid ${C.rule}`,
+            background: C.panel,
+            color: C.ink2,
+            fontFamily: "ui-monospace, monospace",
+          }}
+        />
+        <button
+          onClick={() => {
+            try {
+              const p = JSON.parse(blob);
+              if (!p.bills || !p.months) throw 0;
+              persist(p);
+              setMsg("Restored.");
+            } catch {
+              setMsg("That doesn't look like a backup. Paste the full exported text.");
+            }
+          }}
+          style={{ ...btn, width: "100%", marginTop: 8, background: C.panel, color: C.ink, border: `1.5px solid ${C.ink}` }}
+        >
+          Restore from this text
+        </button>
+        {msg && <p style={{ fontSize: 13, color: C.ink2, marginTop: 8 }}>{msg}</p>}
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+const navBtn = { background: "none", border: "none", color: C.paper, fontSize: 26, lineHeight: 1, padding: "4px 14px" };
+const linkBtn = { background: "none", border: "none", padding: 0, color: C.ink2, fontSize: 13, fontWeight: 600 };
+const btn = { background: C.ink, color: C.paper, border: "none", borderRadius: 10, padding: "13px 16px", fontSize: 15, fontWeight: 600 };
+const estStyle = { fontSize: 11, fontWeight: 600, color: C.pending, background: C.pendingBg, borderRadius: 999, padding: "2px 7px", marginLeft: 8 };
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(<BillPlanner />);
+})();
+</script>
+</body>
+</html>
